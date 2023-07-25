@@ -1,0 +1,195 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/main.html">
+
+    <div class="container mt-5" layout:fragment="detailsFragment">
+
+        <div class="row" th:if="${tovar!=null}">
+            <div class="col-6 mx-auto shadow-lg rounded border-1">
+                <div class="row m-1">
+                    <div class="col-12 mt-3">
+                        <label>NAME : </label>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-12">
+                        <input type="text" class="form-control"
+                               name="item_name" th:value="${tovar.getName()}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3 m-1">
+                    <div class="col-12">
+                        <label>DESCRIPTION : </label>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-12">
+                               <textarea type="text" class="form-control"
+                                         name="item_description" th:text="${tovar.getDescription()}" readonly></textarea>
+                    </div>
+                </div>
+                <div class="row mt-3 m-1">
+                    <div class="col-12">
+                        <label>PRICE : </label>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-12">
+                        <input type="text" class="form-control"
+                               name="item_price" th:value="${tovar.getPrice()}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3 m-1">
+                    <div class="col-12">
+                        <label>COUNTRY : </label>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-12">
+                        <input class="form-control" name="item_country" th:value="${tovar.getCountry()}" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3 m-1">
+                    <div class="col-12">
+                        <label>SALES : </label>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-12">
+                        <input  class="form-control" name="item_sales" th:value="${tovar.isSales()== false?'NO' : 'YES'}" readonly >
+                    </div>
+                </div>
+
+                <div class="row m-1 mt-3 mb-3">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#editModal">
+                            EDIT ITEM
+                        </button>
+                        <button type="button" class="btn btn-warning ms-2" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            DELETE ITEM
+                        </button>
+                    </div>
+                </div>
+
+                <!--Modal EditItem-->
+                <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{'/item/update'}" method="post">
+                                <input type="hidden" th:value="${tovar.getId()}" name="item_id">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Item</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label>NAME : </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row m-1">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control"
+                                                   name="item_name" th:value="${tovar.getName()}">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 m-1">
+                                        <div class="col-12">
+                                            <label>DESCRIPTION : </label>
+                                        </div>
+                                    </div>
+                                    <div class="row m-1">
+                                        <div class="col-12">
+                                                <textarea type="text" class="form-control"
+                                                          name="item_description"
+                                                          th:text="${tovar.getDescription()}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label>PRICE : </label>
+                                        </div>
+                                    </div>
+                                    <div class="row m-1">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control"
+                                                   name="item_price" th:value="${tovar.getPrice()}">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 m-1">
+                                        <div class="col-12">
+                                            <label>COUNTRY : </label>
+                                        </div>
+                                    </div>
+                                    <div class="row m-1">
+                                        <div class="col-12">
+                                            <select class="form-select" name="item_country"
+                                                    th:value="${tovar.getCountry()}">
+                                                <option>USA</option>
+                                                <option>South Korea</option>
+                                                <option>China</option>
+                                                <option>Finland</option>
+                                                <option>Japan</option>
+                                                <option>Germany</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 m-1">
+                                        <div class="col-12">
+                                            <label>SALES : </label>
+                                        </div>
+                                    </div>
+                                    <div class="row m-1">
+                                        <div class="col-12">
+                                            <select class="form-select" name="item_sales">
+                                                <option th:value="true">YES</option>
+                                                <option th:value="false">NO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CANCEL</button>
+                                    <button class="btn btn-primary">UPDATE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal  Delete-->
+                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{'/item/delete'}" method="post">
+                                <input type="hidden" th:value="${tovar.getId()}" name="item_delete">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">Confirm Delete</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4 class="text-center">
+                                        ARE YOU SURE
+                                    </h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+                                    <button class="btn btn-danger">YES</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="text-center" th:if="${tovar == null}">
+            ITEM NOT FOUND
+        </h3>
+    </div>
+
+</html>

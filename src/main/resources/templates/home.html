@@ -1,0 +1,157 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/main.html">>
+
+<div class="container mt-4" layout:fragment="homeFragment">
+    <!--    modal-->
+    <div class="modal fade" id="AddItemModal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel1"> Add Item </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/item/addItem'}" method="post">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>NAME : </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="text" class="form-control" name="item_name" required
+                                       placeholder="Item Name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>DESCRIPTION : </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <textarea class="form-control" name="item_description"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label>PRICE : </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="text" class="form-control" name="item_price" required
+                                       placeholder="Item Price">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label>COUNTRY : </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <select class="form-select" name="item_country">
+                                    <option>USA</option>
+                                    <option>South Korea</option>
+                                    <option>China</option>
+                                    <option>Finland</option>
+                                    <option>Japan</option>
+                                    <option>Germany</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-success">ADD ITEM</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal end-->
+
+    <!--    modal-->
+    <div class="modal fade" id="CountryModal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"> Add Country </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/item/add-country'}" method="post">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label>COUNTRY NAME : </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <select class="form-select" name="name_country">
+                                    <option>USA</option>
+                                    <option>South Korea</option>
+                                    <option>China</option>
+                                    <option>Finland</option>
+                                    <option>Japan</option>
+                                    <option>Germany</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button class="btn btn-success">ADD COUNTRY</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal end-->
+
+    <div class="container shadow-lg rounded border-1">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped  mt-3">
+                    <thead>
+                    <tr class="table-info rounded">
+                        <th style="width: 3%">ID</th>
+                        <th>NAME</th>
+                        <th>PRICE</th>
+                        <th>COUNTRY</th>
+                        <th>SALES</th>
+                        <th style="width: 10%">DETAILS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="it : ${tovary}">
+                        <td th:text="${it.getId()}" class="table-warning rounded"></td>
+                        <td th:text="${it.getName()}"></td>
+                        <td th:text="${it.getPrice()}"
+                            th:class="${it.getPrice() >= 0 && it.getPrice() < 200000 ? 'text-success' : (it.getPrice() >=200000 && it.getPrice() < 400000 ? 'text-warning' : 'text-danger')}"></td>
+                        <td th:text="${it.getCountry()}"></td>
+                        <td th:text="${it.isSales()== false?'NO' : 'YES'}"  ></td>
+                        <td>
+                            <a th:href="@{'/item/details/' + ${it.getId()}}" class="btn btn-warning btn-sm">DETAILS</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</html>
